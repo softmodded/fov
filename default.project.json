@@ -1,0 +1,25 @@
+{
+  "name": "acacia",
+  "tree": {
+    "$className": "DataModel",
+
+    "ReplicatedStorage": {
+      "Shared": {
+        "$path": "src/shared"
+      },
+      "Client": {
+        "$path": "src/client"
+      }
+    },
+
+    "ServerScriptService": {
+      "Server": {
+        "$path": "src/server"
+      }
+    },
+
+    "ReplicatedFirst": {
+      "$path": "src/load"
+    }
+  }
+}
