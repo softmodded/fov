@@ -5,6 +5,7 @@ local mouse = game.Players.LocalPlayer:GetMouse()
 local RunService = game:GetService("RunService")
 local CollectionService = game:GetService("CollectionService")
 local TweenService = game:GetService("TweenService")
+local Tooltip = game.Players.LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Tooltip")
 
 local CursorController = Knit.CreateController { Name = "CursorController" }
 
@@ -72,9 +73,34 @@ function CursorController:CheckForItemsInFrontOfMouse()
         if result then
             local tween = TweenService:Create(self.mouse, ColorTween, {ImageColor3 = Color3.new(0, 0, 0)})
             tween:Play()
+
+            Tooltip.Enabled = true
+            Tooltip.Frame.Pointer.Position = UDim2.new(0, mouse.X, 0, mouse.Y)
+            Tooltip.Frame.Label.Position = UDim2.new(0, mouse.X + 10, 0, mouse.Y + 10)
+            Tooltip.Frame.Label.Text = result.Instance.Name
+
+            -- change the background transparency of all children of Tooltip.Frame to 0
+            for _, child in ipairs(Tooltip.Frame:GetChildren()) do
+                if child:IsA("Frame") or child:IsA("TextLabel") then
+                    local t = TweenService:Create(child, ColorTween, {BackgroundTransparency = 0})
+                    t:Play()
+
+                end
+                
+            end
         else
             local tween = TweenService:Create(self.mouse, ColorTween, {ImageColor3 = Color3.new(1, 1, 1)})
             tween:Play()
+
+            for _, child in ipairs(Tooltip.Frame:GetChildren()) do
+                if child:IsA("Frame") or child:IsA("TextLabel") then
+                    local t = TweenService:Create(child, ColorTween, {BackgroundTransparency = 1})
+                    t:Play()
+                end
+            end
+
+            task.wait(0.1)
+            Tooltip.Enabled = false
         end
     end)
 
